@@ -13,6 +13,24 @@ class App extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xff673AB7),
         ),
+        textTheme: const TextTheme(
+          displayMedium: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.normal,
+          ),
+          titleMedium: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.normal,
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.normal,
+          ),
+          labelMedium: TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
         fontFamily: GoogleFonts.poppins().fontFamily,
       ),
       home: const Home(),
