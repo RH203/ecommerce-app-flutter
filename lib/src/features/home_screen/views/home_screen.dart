@@ -1,4 +1,10 @@
+import 'package:ecommerce_app/src/common/widgets/page_view_screen/page_view_deliver.dart';
+import 'package:ecommerce_app/src/common/widgets/page_view_screen/page_view_searching.dart';
+import 'package:ecommerce_app/src/common/widgets/page_view_screen/page_view_shopping.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,8 +14,82 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _currentPage = 0;
+  late PageController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PageController();
+  }
+
+  void _changePage() {
+    if (_currentPage < 2) {
+      _controller.animateToPage(
+        _currentPage + 1,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: Container(
+        margin: const EdgeInsets.all(8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: Stack(
+                children: [
+                  PageView(
+                    controller: _controller,
+                    onPageChanged: (int page) {
+                      setState(() {
+                        _currentPage = page;
+                      });
+                    },
+                    children: const [
+                      PageViewShopping(),
+                      PageViewDelivery(),
+                      PageViewSearching(),
+                    ],
+                  ),
+                  Container(
+                    alignment: const Alignment(0, 0.4),
+                    child: SmoothPageIndicator(
+                      controller: _controller,
+                      count: 3,
+                      effect: SlideEffect(
+                        activeDotColor:
+                            Theme.of(context).colorScheme.onBackground,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            IconButton(
+              onPressed: _changePage,
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  Theme.of(context).colorScheme.secondary,
+                ),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                  Theme.of(context).colorScheme.onSecondary,
+                ),
+              ),
+              icon: const Icon(
+                FontAwesome.arrow_right_solid,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
