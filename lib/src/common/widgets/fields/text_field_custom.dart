@@ -38,6 +38,9 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
       controller: widget.controller,
       keyboardType: widget.keyboardType,
       decoration: InputDecoration(
