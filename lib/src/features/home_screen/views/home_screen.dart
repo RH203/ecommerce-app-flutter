@@ -2,7 +2,6 @@ import 'package:ecommerce_app/src/common/widgets/page_view_screen/page_view_deli
 import 'package:ecommerce_app/src/common/widgets/page_view_screen/page_view_searching.dart';
 import 'package:ecommerce_app/src/common/widgets/page_view_screen/page_view_shopping.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:icons_plus/icons_plus.dart';
 
@@ -107,6 +106,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             style:
                                 Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       fontSize: 20,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground,
                                     ),
                           ),
                         ),
