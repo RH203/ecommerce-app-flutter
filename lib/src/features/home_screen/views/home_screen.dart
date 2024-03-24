@@ -24,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _changePage() {
+    if (_currentPage == 2) {}
     if (_currentPage < 2) {
       _controller.animateToPage(
         _currentPage + 1,
@@ -73,20 +74,83 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            IconButton(
-              onPressed: _changePage,
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                  Theme.of(context).colorScheme.secondary,
-                ),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                  Theme.of(context).colorScheme.onSecondary,
-                ),
-              ),
-              icon: const Icon(
-                FontAwesome.arrow_right_solid,
-              ),
-            )
+            _currentPage == 2
+                ? AnimatedContainer(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () =>
+                              Navigator.pushNamed(context, '/signinscreen'),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              Theme.of(context).colorScheme.secondary,
+                            ),
+                          ),
+                          child: Text(
+                            "Sign in",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
+                                    fontSize: 20),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(15),
+                          child: Text(
+                            "or",
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      fontSize: 20,
+                                    ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () =>
+                              Navigator.pushNamed(context, '/signupscreen'),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              Theme.of(context).colorScheme.secondary,
+                            ),
+                          ),
+                          child: Text(
+                            "Sign up",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
+                                    fontSize: 20),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : SizedBox(
+                    width: 80,
+                    child: IconButton(
+                      onPressed: _changePage,
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).colorScheme.secondary,
+                        ),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).colorScheme.onSecondary,
+                        ),
+                      ),
+                      icon: const Icon(
+                        FontAwesome.arrow_right_solid,
+                      ),
+                    ),
+                  )
           ],
         ),
       ),
