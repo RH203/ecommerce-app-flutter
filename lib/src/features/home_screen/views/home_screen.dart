@@ -24,7 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _changePage() {
-    if (_currentPage == 2) {}
     if (_currentPage < 2) {
       _controller.animateToPage(
         _currentPage + 1,
