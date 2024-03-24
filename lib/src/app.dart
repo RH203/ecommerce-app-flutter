@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/src/features/auth_screen/views/signin_screen.dart';
+import 'package:ecommerce_app/src/features/auth_screen/views/signup_screen.dart';
 import 'package:ecommerce_app/src/features/home_screen/views/home_screen.dart';
 import 'package:ecommerce_app/src/utils/theme/text_theme_custom.dart';
 import 'package:ecommerce_app/src/utils/theme/theme.dart';
@@ -25,6 +27,11 @@ class App extends StatelessWidget {
               TextThemeCustom.appTextTheme(context),
             ),
       ),
+      routes: {
+        '/homescreen': (context) => const HomeScreen(),
+        '/signinscreen': (context) => const SignInScreen(),
+        '/signupscreen': (context) => const SignUpScreen(),
+      },
       home: const HomeScreen(),
     );
   }
