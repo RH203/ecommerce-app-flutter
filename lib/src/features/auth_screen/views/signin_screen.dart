@@ -25,6 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.popAndPushNamed(context, '/homescreen'),
@@ -39,12 +40,16 @@ class _SignInScreenState extends State<SignInScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 100, bottom: 100),
+              margin: const EdgeInsets.only(top: 20, bottom: 5),
               child: Text(
                 "Sign in",
                 style: Theme.of(context).textTheme.headlineLarge,
                 textAlign: TextAlign.center,
               ),
+            ),
+            Image.asset(
+              "assets/icons/homescreen/logo-homescreen.png",
+              width: 200,
             ),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -87,12 +92,12 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             _rememberMe(context),
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 30),
-              width: 350,
+              margin: const EdgeInsets.symmetric(vertical: 40, horizontal: 2),
+              width: MediaQuery.of(context).size.width,
               child: CustomButton(
-                onTap: () {},
+                onTap: () => Navigator.pushNamed(context, '/mainscreen'),
                 text: Text(
-                  "Sign In",
+                  "Sign up",
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         fontSize: 20,
                         color:
@@ -133,7 +138,9 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
         Text(
           "Remember me",
-          style: Theme.of(context).textTheme.bodySmall,
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
         ),
       ],
     );

@@ -12,6 +12,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isChecked = false;
@@ -25,6 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.popAndPushNamed(context, '/homescreen'),
@@ -39,20 +42,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 100, bottom: 100),
+              margin: const EdgeInsets.only(top: 20),
               child: Text(
                 "Sign up",
-                style: Theme.of(context).textTheme.headlineLarge,
+                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
                 textAlign: TextAlign.center,
               ),
+            ),
+            Image.asset(
+              "assets/icons/homescreen/logo-homescreen.png",
+              width: 200,
             ),
             Row(
               children: [
                 Container(
-                  margin: const EdgeInsets.only(left: 10, bottom: 9),
+                  margin: const EdgeInsets.only(left: 10, bottom: 9, top: 2),
                   width: 180,
                   child: TextFieldCustom(
-                    controller: _emailController,
+                    controller: _firstNameController,
                     hintText: "First Name",
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
@@ -72,7 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   margin: const EdgeInsets.only(left: 10, bottom: 9),
                   width: 180,
                   child: TextFieldCustom(
-                    controller: _emailController,
+                    controller: _lastNameController,
                     hintText: "Last Name",
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
@@ -131,10 +140,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             _rememberMe(context),
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 30),
-              width: 350,
+              margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 2),
+              width: MediaQuery.of(context).size.width,
               child: CustomButton(
-                onTap: () {},
+                onTap: () => Navigator.pushNamed(context, '/mainscreen'),
                 text: Text(
                   "Sign up",
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -177,7 +186,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
         Text(
           "I agree to the terms and conditions",
-          style: Theme.of(context).textTheme.bodySmall,
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
         ),
       ],
     );
