@@ -20,7 +20,9 @@ class PageViewSearching extends StatelessWidget {
         ),
         Text(
           "For Seamless Transactions, Choose Your Payment Path - Your Convenience, Our Priority!",
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
           textAlign: TextAlign.center,
         )
       ],

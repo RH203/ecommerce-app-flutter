@@ -20,7 +20,9 @@ class PageViewShopping extends StatelessWidget {
         ),
         Text(
           "Welcome to a World of Limitless Choices - Your Perfect Product Awaits!",
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
           textAlign: TextAlign.center,
         )
       ],

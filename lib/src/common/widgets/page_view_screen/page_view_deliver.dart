@@ -22,7 +22,9 @@ class PageViewDelivery extends StatelessWidget {
           margin: const EdgeInsets.only(top: 100),
           child: Text(
             "From Our Doorstep to Yours - Swift, Secure, and Contactless Delivery!",
-            style: Theme.of(context).textTheme.headlineMedium,
+            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
             textAlign: TextAlign.center,
           ),
         )
