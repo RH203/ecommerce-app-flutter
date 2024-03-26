@@ -115,33 +115,48 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Row _rememberMe(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          child: Checkbox(
-            value: _isChecked,
-            checkColor: Theme.of(context).colorScheme.onSurface,
-            fillColor: MaterialStateProperty.all<Color>(
-              Theme.of(context).colorScheme.surface,
-            ),
-            onChanged: _onChangeCheckBox,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-              side: BorderSide(
-                color: _isChecked ? Colors.blue : Colors.grey,
-                width: 2,
+        Row(
+          children: [
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              child: Checkbox(
+                value: _isChecked,
+                checkColor: Theme.of(context).colorScheme.onSurface,
+                fillColor: MaterialStateProperty.all<Color>(
+                  Theme.of(context).colorScheme.surface,
+                ),
+                onChanged: _onChangeCheckBox,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  side: BorderSide(
+                    color: _isChecked ? Colors.blue : Colors.grey,
+                    width: 2,
+                  ),
+                ),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                splashRadius: 16,
               ),
             ),
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            splashRadius: 16,
+            Text(
+              "Remember me",
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+            ),
+          ],
+        ),
+        TextButton(
+          onPressed: () {},
+          child: Text(
+            "Forget password?",
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: Theme.of(context).colorScheme.onBackground,
+                  decoration: TextDecoration.underline,
+                ),
           ),
-        ),
-        Text(
-          "Remember me",
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
-        ),
+        )
       ],
     );
   }
