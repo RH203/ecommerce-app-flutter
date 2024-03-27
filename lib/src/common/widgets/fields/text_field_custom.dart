@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class TextFieldCustom extends StatefulWidget {
   const TextFieldCustom({
@@ -7,7 +8,9 @@ class TextFieldCustom extends StatefulWidget {
     required this.hintText,
     required this.validator,
     this.keyboardType = TextInputType.name,
-  }) : isPassword = false;
+  })  : isPassword = false,
+        isSearch = false,
+        searchFunction = null;
 
   const TextFieldCustom.password({
     super.key,
@@ -15,13 +18,27 @@ class TextFieldCustom extends StatefulWidget {
     required this.hintText,
     required this.validator,
     this.keyboardType = TextInputType.name,
-  }) : isPassword = true;
+  })  : isPassword = true,
+        isSearch = false,
+        searchFunction = null;
+
+  const TextFieldCustom.search(
+      {super.key,
+      required this.controller,
+      required this.hintText,
+      required this.validator,
+      this.keyboardType = TextInputType.name,
+      required this.searchFunction})
+      : isPassword = false,
+        isSearch = true;
 
   final TextEditingController controller;
   final bool isPassword;
+  final bool isSearch;
   final String hintText;
   final TextInputType keyboardType;
   final String Function(String?)? validator;
+  final void Function()? searchFunction;
   @override
   State<TextFieldCustom> createState() => _TextFieldCustomState();
 }
@@ -52,7 +69,15 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
               )
-            : null,
+            : widget.isSearch
+                ? IconButton(
+                    onPressed: widget.searchFunction,
+                    icon: Icon(
+                      EvaIcons.search,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  )
+                : null,
         hintText: widget.hintText,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
