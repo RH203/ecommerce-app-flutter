@@ -70,6 +70,7 @@ flutter:
     - assets/image/on_boarding_images/
     - assets/icons/splash_screen/
     - assets/icons/homescreen/
+    - assets/icons/brands/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
