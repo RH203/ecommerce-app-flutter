@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/src/features/auth_screen/views/signin_screen.dart';
 import 'package:ecommerce_app/src/features/auth_screen/views/signup_screen.dart';
+import 'package:ecommerce_app/src/features/cart_screen/views/cart_screen.dart';
 import 'package:ecommerce_app/src/features/home_screen/views/home_screen.dart';
 import 'package:ecommerce_app/src/features/main_screen/views/main_screen.dart';
 import 'package:ecommerce_app/src/utils/theme/theme_provider.dart';
@@ -20,6 +21,7 @@ class App extends StatelessWidget {
         '/signinscreen': (context) => const SignInScreen(),
         '/signupscreen': (context) => const SignUpScreen(),
         '/mainscreen': (context) => const MainScreen(),
+        '/cartscreen': (context) => const CartScreen(),
       },
       home: const HomeScreen(),
     );
