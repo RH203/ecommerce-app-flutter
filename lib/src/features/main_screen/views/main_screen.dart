@@ -1,7 +1,11 @@
+// ignore_for_file: avoid_print, prefer_final_fields
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/src/common/widgets/fields/text_field_custom.dart';
 import 'package:ecommerce_app/src/features/auth_screen/models/validator/validator.dart';
 import 'package:ecommerce_app/src/features/main_screen/models/model_brands.dart';
+import 'package:ecommerce_app/src/features/profile_screen/views/profile_screen.dart';
+import 'package:ecommerce_app/src/features/wishlist_screen/views/wishlist_screen.dart';
 import 'package:ecommerce_app/src/utils/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -17,24 +21,31 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   TextEditingController _searchController = TextEditingController();
+
   int _activeIndex = 0;
   int _currentPageIndex = 0;
 
-  final List<String> pages = [
-    '/mainscreen',
-    '/profilscreen',
-    '/favoritescreen',
-    '/booksscreen',
-    '/genrescreen'
-  ];
+  List<Widget> pages = [];
 
   void _onTapSearch() {
     String searchValue = _searchController.text;
     print(searchValue);
   }
 
+  void _onTapBottomNavigationBar(int index) {
+    setState(() {
+      _currentPageIndex = index;
+    });
+  }
+
+  //* Main function
   @override
   Widget build(BuildContext context) {
+    pages = [
+      _bodyMainScreen(context),
+      const WishlistScreen(),
+      const ProfileScreen(),
+    ];
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
         return Scaffold(
@@ -43,65 +54,79 @@ class _MainScreenState extends State<MainScreen> {
           appBar: _appBar(context, themeProvider),
           body: Container(
             margin: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                //! Search bar
-                _searchBarCustom(),
-                //! Carousel image
-                _carouselSlider(),
-                _animatedSmoothIndicator(context),
-                //! Brands
-                _titleBrands(context),
-                _buttonBrands(context),
-              ],
-            ),
+            child: pages.elementAt(_currentPageIndex),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: Theme.of(context).colorScheme.background,
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
-            unselectedItemColor: Theme.of(context).colorScheme.onBackground,
-            selectedItemColor: Theme.of(context).colorScheme.onBackground,
-            items: const [
-              BottomNavigationBarItem(
-                label: "Home",
-                icon: Icon(Icons.home),
-              ),
-              BottomNavigationBarItem(
-                label: "Search",
-                icon: Icon(Icons.search),
-              ),
-              BottomNavigationBarItem(
-                label: "Profile",
-                icon: Icon(Icons.person),
-              ),
-              BottomNavigationBarItem(
-                label: "Wishlist",
-                icon: Icon(Icons.favorite_outlined),
-              ),
-            ],
-            currentIndex: _currentPageIndex,
-            onTap: (value) => setState(
-              () {
-                Navigator.popAndPushNamed(context, pages[value]);
-              },
-            ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            
-            backgroundColor: Theme.of(context).colorScheme.secondary,
-            onPressed: () {},
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.message,
-                color: Theme.of(context).colorScheme.onSecondary,
-              ),
-            ),
-          ),
+          bottomNavigationBar: _bottomNavigationBarCustom(context),
+          floatingActionButton: _floatingActionButtonCustom(context),
         );
       },
+    );
+  }
+
+  FloatingActionButton _floatingActionButtonCustom(BuildContext context) {
+    return FloatingActionButton(
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+      onPressed: () {},
+      child: GestureDetector(
+        onTap: () {},
+        child: Badge(
+          smallSize: 10,
+          backgroundColor: Colors.red,
+          child: Icon(
+            Icons.message,
+            color: Theme.of(context).colorScheme.onSecondaryContainer,
+            size: 35,
+          ),
+        ),
+      ),
+    );
+  }
+
+  BottomNavigationBar _bottomNavigationBarCustom(BuildContext context) {
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      showSelectedLabels: true,
+      showUnselectedLabels: true,
+      unselectedItemColor: Theme.of(context).colorScheme.onBackground,
+      selectedItemColor: Theme.of(context).colorScheme.onBackground,
+      items: [
+        BottomNavigationBarItem(
+          label: "Home",
+          icon: _currentPageIndex != 0
+              ? const Icon(Icons.home_outlined)
+              : const Icon(Icons.home_filled),
+        ),
+        BottomNavigationBarItem(
+          label: "Wishlist",
+          icon: _currentPageIndex != 1
+              ? const Icon(Icons.favorite_outline)
+              : const Icon(Icons.favorite),
+        ),
+        BottomNavigationBarItem(
+          label: "Profile",
+          icon: _currentPageIndex != 2
+              ? const Icon(Icons.person_outline)
+              : const Icon(Icons.person),
+        ),
+      ],
+      currentIndex: _currentPageIndex,
+      onTap: _onTapBottomNavigationBar,
+    );
+  }
+
+  Column _bodyMainScreen(BuildContext context) {
+    return Column(
+      children: [
+        //! Search bar
+        _searchBarCustom(),
+        //! Carousel image
+        _carouselSlider(),
+        _animatedSmoothIndicator(context),
+        //! Brands
+        _titleBrands(context),
+        _buttonBrands(context),
+      ],
     );
   }
 
@@ -249,11 +274,12 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(right: 5),
+          margin: const EdgeInsets.only(right: 7),
           child: GestureDetector(
             onTap: () => Navigator.pushNamed(context, '/cartscreen'),
-            child: const Badge(
-              child: Icon(Icons.shopping_cart_sharp),
+            child: Badge.count(
+              count: 2,
+              child: const Icon(Icons.shopping_cart_sharp),
             ),
           ),
         )
