@@ -4,7 +4,6 @@ import 'package:ecommerce_app/src/features/auth_screen/models/validator/validato
 import 'package:ecommerce_app/src/features/main_screen/models/model_brands.dart';
 import 'package:ecommerce_app/src/utils/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -19,6 +18,15 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   TextEditingController _searchController = TextEditingController();
   int _activeIndex = 0;
+  int _currentPageIndex = 0;
+
+  final List<String> pages = [
+    '/mainscreen',
+    '/profilscreen',
+    '/favoritescreen',
+    '/booksscreen',
+    '/genrescreen'
+  ];
 
   void _onTapSearch() {
     String searchValue = _searchController.text;
@@ -48,6 +56,50 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
           ),
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Theme.of(context).colorScheme.background,
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
+            unselectedItemColor: Theme.of(context).colorScheme.onBackground,
+            selectedItemColor: Theme.of(context).colorScheme.onBackground,
+            items: const [
+              BottomNavigationBarItem(
+                label: "Home",
+                icon: Icon(Icons.home),
+              ),
+              BottomNavigationBarItem(
+                label: "Search",
+                icon: Icon(Icons.search),
+              ),
+              BottomNavigationBarItem(
+                label: "Profile",
+                icon: Icon(Icons.person),
+              ),
+              BottomNavigationBarItem(
+                label: "Wishlist",
+                icon: Icon(Icons.favorite_outlined),
+              ),
+            ],
+            currentIndex: _currentPageIndex,
+            onTap: (value) => setState(
+              () {
+                Navigator.popAndPushNamed(context, pages[value]);
+              },
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+            onPressed: () {},
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.message,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+            ),
+          ),
         );
       },
     );
@@ -55,59 +107,59 @@ class _MainScreenState extends State<MainScreen> {
 
   SizedBox _buttonBrands(BuildContext context) {
     return SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      ...ModelBrands.shoesBrandIcons.map(
-                        (e) {
-                          return Builder(
-                            builder: (context) {
-                              return IconButton(
-                                onPressed: () {},
-                                icon: e,
-                              );
-                            },
-                          );
-                        },
-                      )
-                    ],
-                  ),
-                ),
-              );
+      width: MediaQuery.of(context).size.width,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            ...ModelBrands.shoesBrandIcons.map(
+              (e) {
+                return Builder(
+                  builder: (context) {
+                    return IconButton(
+                      onPressed: () {},
+                      icon: e,
+                    );
+                  },
+                );
+              },
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Container _titleBrands(BuildContext context) {
     return Container(
-                margin: const EdgeInsets.only(top: 10, bottom: 7),
-                width: MediaQuery.of(context).size.width,
-                child: Text(
-                  "Brands",
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                ),
-              );
+      margin: const EdgeInsets.only(top: 10, bottom: 7),
+      width: MediaQuery.of(context).size.width,
+      child: Text(
+        "Brands",
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+      ),
+    );
   }
 
   TextFieldCustom _searchBarCustom() {
     return TextFieldCustom.search(
-                controller: _searchController,
-                hintText: "Search",
-                searchFunction: _onTapSearch,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please enter your items";
-                  }
-                  if (Validator.searchIsValid(value)) {
-                    return "Invalid items";
-                  }
-                  return "NULL";
-                },
-              );
+      controller: _searchController,
+      hintText: "Search",
+      searchFunction: _onTapSearch,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Please enter your items";
+        }
+        if (Validator.searchIsValid(value)) {
+          return "Invalid items";
+        }
+        return "NULL";
+      },
+    );
   }
 
   AnimatedSmoothIndicator _animatedSmoothIndicator(BuildContext context) {
@@ -196,6 +248,15 @@ class _MainScreenState extends State<MainScreen> {
             themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
           ),
         ),
+        Container(
+          margin: const EdgeInsets.only(right: 5),
+          child: GestureDetector(
+            onTap: () => Navigator.pushNamed(context, '/cartscreen'),
+            child: const Badge(
+              child: Icon(Icons.shopping_cart_sharp),
+            ),
+          ),
+        )
       ],
     );
   }
