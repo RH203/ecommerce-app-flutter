@@ -1,7 +1,5 @@
 # ECOMMERCE_APP
 
----
-
 **ECOMMERCE APP**
 
 **How to Run this Project**
