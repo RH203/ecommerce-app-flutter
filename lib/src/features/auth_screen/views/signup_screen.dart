@@ -144,17 +144,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               width: MediaQuery.of(context).size.width,
               child: CustomButton(
                 onTap: () => Navigator.pushNamed(context, '/mainscreen'),
-                text: Text(
-                  "Sign up",
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontSize: 20,
-                        color:
-                            Theme.of(context).colorScheme.onSecondaryContainer,
-                      ),
-                  textAlign: TextAlign.center,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                borderRadiusGeometry: BorderRadius.circular(20),
+                fontSize: 25,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30,
+                  vertical: 21,
                 ),
+                text: "Sign in",
               ),
-            )
+            ),
           ],
         ),
       ),
