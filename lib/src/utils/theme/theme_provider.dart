@@ -15,12 +15,6 @@ class ThemeProvider extends ChangeNotifier {
   ThemeData get themeData => _themeData;
   bool get isDarkMode => _isDarkMode;
 
-  // void setTheme(ThemeData themeData) {
-  //   _themeData = themeData;
-  //   _isDarkMode = _themeData == darkColorScheme(_context); 
-  //   notifyListeners();
-  // }
-
   void toggleTheme(BuildContext context) {
     _themeData = _themeData == lightColorScheme(_context)
         ? darkColorScheme(_context)

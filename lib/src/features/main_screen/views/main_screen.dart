@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_print, prefer_final_fields
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ecommerce_app/src/common/widgets/button/custom_button.dart';
 import 'package:ecommerce_app/src/common/widgets/fields/text_field_custom.dart';
 import 'package:ecommerce_app/src/features/auth_screen/models/validator/validator.dart';
-import 'package:ecommerce_app/src/features/main_screen/models/model_brands.dart';
 import 'package:ecommerce_app/src/features/profile_screen/views/profile_screen.dart';
 import 'package:ecommerce_app/src/features/wishlist_screen/views/wishlist_screen.dart';
 import 'package:ecommerce_app/src/utils/theme/theme_provider.dart';
@@ -118,55 +118,12 @@ class _MainScreenState extends State<MainScreen> {
   Column _bodyMainScreen(BuildContext context) {
     return Column(
       children: [
-        //! Search bar
+        //* Search bar
         _searchBarCustom(),
-        //! Carousel image
+        //* Carousel image
         _carouselSlider(),
         _animatedSmoothIndicator(context),
-        //! Brands
-        _titleBrands(context),
-        _buttonBrands(context),
       ],
-    );
-  }
-
-  SizedBox _buttonBrands(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            ...ModelBrands.shoesBrandIcons.map(
-              (e) {
-                return Builder(
-                  builder: (context) {
-                    return IconButton(
-                      onPressed: () {},
-                      icon: e,
-                    );
-                  },
-                );
-              },
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container _titleBrands(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 10, bottom: 7),
-      width: MediaQuery.of(context).size.width,
-      child: Text(
-        "Brands",
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-      ),
     );
   }
 
@@ -202,17 +159,21 @@ class _MainScreenState extends State<MainScreen> {
       items: [1, 2, 3, 4, 5].map((i) {
         return Builder(
           builder: (BuildContext context) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 15),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Theme.of(context).colorScheme.secondary,
-              ),
-              child: Center(
-                child: Text(
-                  'text $i',
-                  style: const TextStyle(fontSize: 16.0),
+            return GestureDetector(
+              onTap: () {},
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 15),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+                child: Center(
+                  child: Text(
+                    'text $i',
+                    style: const TextStyle(fontSize: 16.0),
+                  ),
                 ),
               ),
             );

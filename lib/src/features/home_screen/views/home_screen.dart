@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/src/common/widgets/button/custom_button.dart';
 import 'package:ecommerce_app/src/common/widgets/page_view_screen/page_view_deliver.dart';
 import 'package:ecommerce_app/src/common/widgets/page_view_screen/page_view_searching.dart';
 import 'package:ecommerce_app/src/common/widgets/page_view_screen/page_view_shopping.dart';
@@ -26,8 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_currentPage < 2) {
       _controller.animateToPage(
         _currentPage + 1,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.ease,
+        duration: const Duration(seconds: 1),
+        curve: Curves.easeInOut,
       );
     }
   }
@@ -74,34 +75,28 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             _currentPage == 2
-                ? AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut,
+                ? SizedBox(
+                    width: MediaQuery.sizeOf(context).width,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          onPressed: () =>
+                        CustomButton(
+                          onTap: () =>
                               Navigator.pushNamed(context, '/signinscreen'),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
+                          backgroundColor:
                               Theme.of(context).colorScheme.secondary,
-                            ),
+                          foregroundColor:
+                              Theme.of(context).colorScheme.onSecondary,
+                          fontSize: 20,
+                          borderRadiusGeometry: BorderRadius.circular(15),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 30,
+                            vertical: 10,
                           ),
-                          child: Text(
-                            "Sign in",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondary,
-                                    fontSize: 20),
-                          ),
+                          text: "Sign up",
                         ),
                         Container(
-                          margin: const EdgeInsets.all(15),
+                          margin: const EdgeInsets.symmetric(horizontal: 15),
                           child: Text(
                             "or",
                             style:
@@ -113,31 +108,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                           ),
                         ),
-                        ElevatedButton(
-                          onPressed: () =>
+                        CustomButton(
+                          onTap: () =>
                               Navigator.pushNamed(context, '/signupscreen'),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
+                          backgroundColor:
                               Theme.of(context).colorScheme.secondary,
-                            ),
+                          foregroundColor:
+                              Theme.of(context).colorScheme.onSecondary,
+                          fontSize: 20,
+                          borderRadiusGeometry: BorderRadius.circular(15),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 30,
+                            vertical: 10,
                           ),
-                          child: Text(
-                            "Sign up",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondary,
-                                    fontSize: 20),
-                          ),
-                        ),
+                          text: "Sign up",
+                        )
                       ],
                     ),
                   )
-                : SizedBox(
-                    width: 80,
+                : Container(
+                    margin: const EdgeInsets.only(left: 280, right: 10),
+                    width: MediaQuery.sizeOf(context).width,
                     child: IconButton(
                       onPressed: _changePage,
                       style: ButtonStyle(
