@@ -18,6 +18,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Ecommerce App",
       theme: Provider.of<ThemeProvider>(context).themeData,
+      themeMode: ThemeMode.system,
       routes: {
         '/homescreen': (context) => const HomeScreen(),
         '/signinscreen': (context) => const SignInScreen(),
