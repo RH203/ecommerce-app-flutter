@@ -9,6 +9,7 @@ class CustomButton extends StatefulWidget {
     required this.foregroundColor,
     required this.fontSize,
     required this.borderRadiusGeometry,
+    this.fontWeight = FontWeight.normal,
     this.padding = const EdgeInsets.all(0),
     this.margin = const EdgeInsets.all(0),
     this.textAlign = TextAlign.center,
@@ -21,6 +22,7 @@ class CustomButton extends StatefulWidget {
   final EdgeInsetsGeometry margin, padding;
   final BorderRadiusGeometry borderRadiusGeometry;
   final TextAlign textAlign;
+  final FontWeight fontWeight;
 
   @override
   State<CustomButton> createState() => _CustomButtonState();
@@ -42,6 +44,7 @@ class _CustomButtonState extends State<CustomButton> {
           style: TextStyle(
             color: widget.foregroundColor,
             fontSize: widget.fontSize,
+            fontWeight: widget.fontWeight,
           ),
           textAlign: widget.textAlign,
         ),

@@ -93,7 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             horizontal: 30,
                             vertical: 10,
                           ),
-                          text: "Sign up",
+                          text: "Sign in",
+                          fontWeight: FontWeight.w600,
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -122,6 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             vertical: 10,
                           ),
                           text: "Sign up",
+                          fontWeight: FontWeight.w600,
                         )
                       ],
                     ),

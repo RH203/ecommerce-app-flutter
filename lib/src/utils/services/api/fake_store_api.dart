@@ -1,5 +1,7 @@
 import 'dart:convert';
+
 import 'package:ecommerce_app/src/features/main_screen/models/models_category_button.dart';
+import 'package:ecommerce_app/src/features/main_screen/models/models_product.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 
@@ -33,7 +35,26 @@ class FakeStoreApi {
         modelsCategoryButton.valueCategoryProduct = List<String>.from(data);
       }
     } catch (e) {
-      log.warning("Error getting categories: $e");
+      log.warning("Error: fetching categories: $e");
+    }
+  }
+
+  Future<void> getAllProducts() async {
+    try {
+      final response = await http.get(Uri.parse(getAllProductsUrl));
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        Map<String, ModelsProduct> productMap = {};
+
+        data.forEach((key, value) {
+          productMap[key] = ModelsProduct.fromJson(value);
+        });
+
+      } else {
+        throw Exception('Failed to load products: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error fetching products: $e');
     }
   }
 }

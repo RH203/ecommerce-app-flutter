@@ -29,7 +29,7 @@ class _SignInScreenState extends State<SignInScreen> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => Navigator.popAndPushNamed(context, '/homescreen'),
+          onPressed: () => Navigator.popAndPushNamed(context, '/'),
           icon: const Icon(
             FontAwesome.arrow_left_solid,
           ),
@@ -42,20 +42,8 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(top: 20, bottom: 5),
-              child: Text(
-                "Sign in",
-                style: Theme.of(context).textTheme.headlineLarge,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(
-              width: MediaQuery.sizeOf(context).width,
-              height: 200,
-              child: Image.asset(
-                "assets/icons/homescreen/logo-homescreen.png",
-              ),
+            Image.asset(
+              "assets/icons/homescreen/logo-homescreen.png",
             ),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -111,6 +99,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   vertical: 21,
                 ),
                 text: "Sign in",
+                fontWeight: FontWeight.w600,
               ),
             ),
             Column(

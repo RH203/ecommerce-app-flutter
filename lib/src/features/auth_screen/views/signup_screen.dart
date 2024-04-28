@@ -30,7 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => Navigator.popAndPushNamed(context, '/homescreen'),
+          onPressed: () => Navigator.popAndPushNamed(context, '/'),
           icon: const Icon(
             FontAwesome.arrow_left_solid,
           ),
@@ -41,16 +41,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              margin: const EdgeInsets.only(top: 20),
-              child: Text(
-                "Sign up",
-                style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                textAlign: TextAlign.center,
-              ),
-            ),
             Image.asset(
               "assets/icons/homescreen/logo-homescreen.png",
               width: 200,
@@ -153,8 +143,66 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   vertical: 21,
                 ),
                 text: "Sign in",
+                fontWeight: FontWeight.w600,
               ),
             ),
+            Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Divider(
+                        color: Theme.of(context).colorScheme.onBackground,
+                        thickness: 2,
+                        indent: 10,
+                        endIndent: 20,
+                      ),
+                    ),
+                    Text(
+                      "OR",
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            fontSize: 20,
+                          ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: Theme.of(context).colorScheme.onBackground,
+                        thickness: 2,
+                        indent: 20,
+                        endIndent: 10,
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 11),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      IconButton.outlined(
+                        onPressed: () {},
+                        icon: const Icon(
+                          FontAwesome.google_brand,
+                        ),
+                      ),
+                      IconButton.outlined(
+                        onPressed: () {},
+                        icon: const Icon(
+                          FontAwesome.facebook_brand,
+                        ),
+                      ),
+                      IconButton.outlined(
+                        onPressed: () {},
+                        icon: const Icon(
+                          FontAwesome.apple_brand,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            )
           ],
         ),
       ),

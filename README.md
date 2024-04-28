@@ -22,6 +22,9 @@
    flutter pub get
    ```
 
+4. Setup Supabase:
+
+
 4. Create a Firebase project on [Firebase Console](https://console.firebase.google.com), and activate and configure Firebase Auth, Firebase Firestore, and Firebase Cloud Storage. Then, connect this app to the newly created Firebase project by running:
 
    ```bash
