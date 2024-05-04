@@ -76,9 +76,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/image/on_boarding_images/
+    - assets/image/carousel/
     - assets/icons/splash_screen/
     - assets/icons/homescreen/
     - assets/icons/brands/
+    - assets/icons/lottie/
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
