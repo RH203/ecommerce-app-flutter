@@ -50,6 +50,7 @@ dependencies:
   page_route_animator: ^1.0.4
   loading_animation_widget: ^1.2.1
   string_extensions: ^0.7.1
+  flutter_staggered_animations: ^1.1.1
 
 dev_dependencies:
   flutter_test:
