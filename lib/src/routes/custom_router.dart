@@ -25,7 +25,7 @@ class CustomRouter {
         );
       case '/signinscreen':
         return PageRouteAnimator(
-          routeAnimation: RouteAnimation.bottomLeftToTopRightWithFade,
+          routeAnimation: RouteAnimation.bottomToTopWithFade,
           settings: settings,
           curve: Curves.easeInOut,
           duration: const Duration(milliseconds: 800),
