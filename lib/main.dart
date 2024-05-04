@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/src/app.dart';
+import 'package:ecommerce_app/src/features/main_screen/controllers/products.dart';
 import 'package:ecommerce_app/src/utils/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -12,11 +13,15 @@ Future<void> main() async {
     url: dotenv.get('PROJECT_URL'),
     anonKey: dotenv.get('ANON_KEY_API'),
   );
-
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => ThemeProvider(context))
+        ChangeNotifierProvider(
+          create: (context) => ThemeProvider(context),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Products(),
+        )
       ],
       child: const App(),
     ),
