@@ -1,34 +1,34 @@
+import 'package:ecommerce_app/src/utils/services/api/products_api.dart';
+
 class ModelsProduct {
-  final int id;
   final String title;
+  final String brand;
   final double price;
-  final String description;
-  final String category;
+  final List<String> colors;
+  final List<String> sizes;
   final String image;
-  final double ratingRate;
-  final int ratingCount;
 
   ModelsProduct({
-    required this.id,
     required this.title,
+    required this.brand,
     required this.price,
-    required this.description,
-    required this.category,
+    required this.colors,
+    required this.sizes,
     required this.image,
-    required this.ratingRate,
-    required this.ratingCount,
   });
 
   factory ModelsProduct.fromJson(Map<String, dynamic> json) {
     return ModelsProduct(
-      id: json['id'] as int,
-      title: json['title'] as String,
-      price: json['price'] as double,
-      description: json['description'] as String,
-      category: json['category'] as String,
-      image: json['image'] as String,
-      ratingRate: json['rating']['rate'] as double,
-      ratingCount: json['rating']['count'] as int,
+      title: json['name'] as String,
+      brand: json['brand'] as String,
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      colors: (json['colors'] as List<dynamic>)
+          .map((color) => color.toString())
+          .toList(),
+      sizes: (json['sizes'] as List<dynamic>)
+          .map((size) => size.toString())
+          .toList(),
+      image: ProductsApi.imageUrl + json['image'] as String,
     );
   }
 }
