@@ -142,7 +142,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   horizontal: 30,
                   vertical: 21,
                 ),
-                text: "Sign in",
+                text: "Sign up",
                 fontWeight: FontWeight.w600,
               ),
             ),
