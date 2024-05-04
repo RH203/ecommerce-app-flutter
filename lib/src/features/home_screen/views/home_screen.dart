@@ -3,9 +3,9 @@ import 'package:ecommerce_app/src/common/widgets/page_view_screen/page_view_deli
 import 'package:ecommerce_app/src/common/widgets/page_view_screen/page_view_searching.dart';
 import 'package:ecommerce_app/src/common/widgets/page_view_screen/page_view_shopping.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -81,55 +81,69 @@ class _HomeScreenState extends State<HomeScreen> {
             _currentPage == 2
                 ? SizedBox(
                     width: MediaQuery.sizeOf(context).width,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomButton(
-                          onTap: () =>
-                              Navigator.pushNamed(context, '/signinscreen'),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.secondary,
-                          foregroundColor:
-                              Theme.of(context).colorScheme.onSecondary,
-                          fontSize: 20,
-                          borderRadiusGeometry: BorderRadius.circular(15),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 30,
-                            vertical: 10,
+                    child: AnimationConfiguration.staggeredList(
+                      duration: const Duration(milliseconds: 500),
+                      position: 1,
+                      child: SlideAnimation(
+                        curve: Curves.linear,
+                        horizontalOffset: 80,
+                        verticalOffset: 0,
+                        child: FadeInAnimation(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CustomButton(
+                                onTap: () => Navigator.pushNamed(
+                                    context, '/signinscreen'),
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.secondary,
+                                foregroundColor:
+                                    Theme.of(context).colorScheme.onSecondary,
+                                fontSize: 20,
+                                borderRadiusGeometry: BorderRadius.circular(15),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 30,
+                                  vertical: 10,
+                                ),
+                                text: "Sign in",
+                                fontWeight: FontWeight.w600,
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: Text(
+                                  "or",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                        fontSize: 20,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
+                                      ),
+                                ),
+                              ),
+                              CustomButton(
+                                onTap: () => Navigator.pushNamed(
+                                    context, '/signupscreen'),
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.secondary,
+                                foregroundColor:
+                                    Theme.of(context).colorScheme.onSecondary,
+                                fontSize: 20,
+                                borderRadiusGeometry: BorderRadius.circular(15),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 30,
+                                  vertical: 10,
+                                ),
+                                text: "Sign up",
+                                fontWeight: FontWeight.w600,
+                              )
+                            ],
                           ),
-                          text: "Sign in",
-                          fontWeight: FontWeight.w600,
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Text(
-                            "or",
-                            style:
-                                Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                      fontSize: 20,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
-                                    ),
-                          ),
-                        ),
-                        CustomButton(
-                          onTap: () =>
-                              Navigator.pushNamed(context, '/signupscreen'),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.secondary,
-                          foregroundColor:
-                              Theme.of(context).colorScheme.onSecondary,
-                          fontSize: 20,
-                          borderRadiusGeometry: BorderRadius.circular(15),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 30,
-                            vertical: 10,
-                          ),
-                          text: "Sign up",
-                          fontWeight: FontWeight.w600,
-                        )
-                      ],
+                      ),
                     ),
                   )
                 : Container(
