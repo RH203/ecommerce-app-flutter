@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -13,12 +12,12 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => Navigator.popAndPushNamed(context, '/mainscreen'),
-          icon: const Icon(
-            FontAwesome.arrow_left_solid,
-          ),
+      body: Center(
+        child: Text(
+          "Cart screen",
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
         ),
       ),
     );
