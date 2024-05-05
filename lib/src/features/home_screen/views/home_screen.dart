@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: SmoothPageIndicator(
                         controller: _controller,
                         count: 3,
-                        effect: JumpingDotEffect(
+                        effect: ExpandingDotsEffect(
                           activeDotColor:
                               Theme.of(context).colorScheme.onBackground,
                         ),
