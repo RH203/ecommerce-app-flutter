@@ -57,6 +57,7 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
     return TextFormField(
       style: TextStyle(
         color: Theme.of(context).colorScheme.onSurface,
+        fontSize: 18,
       ),
       controller: widget.controller,
       keyboardType: widget.keyboardType,
@@ -108,9 +109,8 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
           ),
         ),
         filled: true,
-        fillColor:
-            Theme.of(context).colorScheme.inversePrimary.withOpacity(0.3),
-        contentPadding: const EdgeInsets.all(16),
+        fillColor: Theme.of(context).colorScheme.secondary.withOpacity(0.3),
+        contentPadding: const EdgeInsets.all(17),
       ),
       obscureText: widget.isPassword && !isVisible,
       validator: widget.validator,
