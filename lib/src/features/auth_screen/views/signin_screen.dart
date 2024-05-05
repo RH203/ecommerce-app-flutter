@@ -1,8 +1,10 @@
 import 'package:ecommerce_app/src/common/widgets/button/custom_button.dart';
 import 'package:ecommerce_app/src/common/widgets/fields/text_field_custom.dart';
+import 'package:ecommerce_app/src/features/auth_screen/controllers/controller_auth.dart';
 import 'package:ecommerce_app/src/features/auth_screen/models/validator/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:logger/logger.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -12,9 +14,11 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  final ControllerAuth _signIn = ControllerAuth();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isChecked = false;
+  var log = Logger();
 
   void _onChangeCheckBox(bool? value) {
     setState(() {
@@ -37,8 +41,12 @@ class _SignInScreenState extends State<SignInScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Image.asset(
-            "assets/icons/homescreen/logo-homescreen.png",
+          Container(
+            margin: const EdgeInsets.only(bottom: 30),
+            child: Image.asset(
+              "assets/icons/homescreen/logo-homescreen.png",
+              width: 200,
+            ),
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -84,7 +92,21 @@ class _SignInScreenState extends State<SignInScreen> {
             margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
             width: MediaQuery.of(context).size.width,
             child: CustomButton(
-              onTap: () => Navigator.pushNamed(context, '/mainscreen'),
+              onTap: () {
+                _signIn
+                    .signInUseEmail(_emailController.text.toString(),
+                        _passwordController.text.toString())
+                    .then((value) {
+                  if (value) {
+                    log.i(value);
+                    Navigator.pushNamed(context, '/mainscreen');
+                  } else {
+                    Navigator.pushNamed(context, '/signinscreen');
+                  }
+                }).catchError((error) {
+                  log.e("Sign In Screen: $error");
+                });
+              },
               backgroundColor: Theme.of(context).colorScheme.secondary,
               foregroundColor: Theme.of(context).colorScheme.onSecondary,
               borderRadiusGeometry: BorderRadius.circular(20),
