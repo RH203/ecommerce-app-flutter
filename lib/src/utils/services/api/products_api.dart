@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:ecommerce_app/src/features/main_screen/models/models_category_button.dart';
 import 'package:ecommerce_app/src/features/main_screen/models/models_product.dart';
 import 'package:http/http.dart' as http;
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 
 class ProductsApi {
   // Api Product
@@ -17,7 +17,7 @@ class ProductsApi {
 
   final client = http.Client();
   ModelsCategoryButton modelsCategoryButton = ModelsCategoryButton();
-  final log = Logger('Services API');
+  final log = Logger();
 
   // Function to get all kinds of products
   Future<List<ModelsProduct>> getAllProducts() async {
