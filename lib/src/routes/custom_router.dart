@@ -6,11 +6,11 @@ import 'package:ecommerce_app/src/features/main_screen/views/main_screen.dart';
 import 'package:ecommerce_app/src/features/profile_screen/views/profile_screen.dart';
 import 'package:ecommerce_app/src/features/wishlist_screen/views/wishlist_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:page_route_animator/page_route_animator.dart';
 
 class CustomRouter {
-  static final Logger log = Logger("Route");
+  static final Logger log = Logger();
 
   static pageRoute(String name, RouteSettings settings) {
     switch (name) {
@@ -18,7 +18,7 @@ class CustomRouter {
         return PageRouteAnimator(
           routeAnimation: RouteAnimation.leftToRightWithFade,
           settings: settings,
-          curve: Curves.easeInOut,
+          curve: Curves.linear,
           duration: const Duration(milliseconds: 800),
           reverseDuration: const Duration(milliseconds: 800),
           child: const HomeScreen(),
@@ -34,7 +34,7 @@ class CustomRouter {
         );
       case '/signupscreen':
         return PageRouteAnimator(
-          routeAnimation: RouteAnimation.sizeFromBottom,
+          routeAnimation: RouteAnimation.bottomToTopWithFade,
           settings: settings,
           curve: Curves.linear,
           duration: const Duration(milliseconds: 800),
@@ -78,7 +78,7 @@ class CustomRouter {
           child: const ProfileScreen(),
         );
       default:
-        log.warning("Path not found");
+        log.e("Path not found [CUSTOM ROUTER]");
         break;
     }
   }
