@@ -43,14 +43,15 @@ dependencies:
   custom_refresh_indicator: ^3.0.0
   lottie: ^3.1.0
   flutter_native_splash: ^2.4.0
-  shared_preferences: ^2.2.2
   flutter_dotenv: ^5.1.0
   supabase_flutter: ^2.5.1
-  logging: ^1.2.0
+  logger: ^2.2.0
   page_route_animator: ^1.0.4
   loading_animation_widget: ^1.2.1
   string_extensions: ^0.7.1
   flutter_staggered_animations: ^1.1.1
+  shared_preferences: ^2.2.3
+
 
 dev_dependencies:
   flutter_test:
