@@ -1,8 +1,10 @@
 import 'package:ecommerce_app/src/common/widgets/button/custom_button.dart';
 import 'package:ecommerce_app/src/common/widgets/fields/text_field_custom.dart';
+import 'package:ecommerce_app/src/features/auth_screen/controllers/controller_auth.dart';
 import 'package:ecommerce_app/src/features/auth_screen/models/validator/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:logger/logger.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -16,6 +18,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final ControllerAuth _auth = ControllerAuth();
+  var log = Logger();
   bool _isChecked = false;
 
   void _onChangeCheckBox(bool? value) {
@@ -133,7 +137,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
               margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 2),
               width: MediaQuery.of(context).size.width,
               child: CustomButton(
-                onTap: () => Navigator.pushNamed(context, '/mainscreen'),
+                onTap: () {
+                  _auth
+                      .signUpUseEmail(
+                    _emailController.text.toString(),
+                    _passwordController.text.toString(),
+                    _firstNameController.text.toString(),
+                    _lastNameController.text.toString(),
+                  )
+                      .then((value) {
+                    if (value) {
+                      log.i(value);
+                      Navigator.pushNamed(context, '/signinscreen');
+                    } else {
+                      Navigator.pushNamed(context, '/signupscreen');
+                    }
+                  }).catchError((error) {
+                    log.e('Sign Up Screen: $error');
+                  });
+                },
                 backgroundColor: Theme.of(context).colorScheme.secondary,
                 foregroundColor: Theme.of(context).colorScheme.onSecondary,
                 borderRadiusGeometry: BorderRadius.circular(20),
