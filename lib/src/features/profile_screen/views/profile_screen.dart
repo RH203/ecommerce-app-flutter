@@ -18,8 +18,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Center(
           child: ElevatedButton(
         onPressed: () {
-          _signOut.logOutUser();
-          Navigator.pushNamed(context, '/');
+          setState(() {
+            _signOut.logOutUser();
+            Navigator.pushNamed(context, '/');
+          });
         },
         child: Text(
           "Logout",
