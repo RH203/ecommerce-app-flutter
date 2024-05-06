@@ -18,6 +18,7 @@ class ControllerAuth {
       );
       log.i(res.user?.email);
       if (res.user?.email != null) {
+        // log.i(res.user?.userMetadata);
         _value = !_value;
         sharedPref.setAccessToken(res.session?.accessToken != null);
       } else {
@@ -33,11 +34,14 @@ class ControllerAuth {
       String email, String password, String firstName, String lastName) async {
     bool _value = false;
     try {
-      final res =
-          await supabase.auth.signUp(email: email, password: password, data: {
-        "firstname": firstName,
-        "lastname": lastName,
-      });
+      final res = await supabase.auth.signUp(
+        email: email,
+        password: password,
+        data: {
+          "first_name": firstName,
+          "last_name": lastName,
+        },
+      );
       log.i(res.user?.email);
       if (res.user?.email != null) {
         _value = !_value;
