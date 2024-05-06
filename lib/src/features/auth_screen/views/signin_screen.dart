@@ -4,6 +4,7 @@ import 'package:ecommerce_app/src/features/auth_screen/controllers/controller_au
 import 'package:ecommerce_app/src/features/auth_screen/models/validator/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:logger/logger.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -18,11 +19,36 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isChecked = false;
+  bool _isLoading = false;
   var log = Logger();
 
   void _onChangeCheckBox(bool? value) {
     setState(() {
       _isChecked = value ?? false;
+    });
+  }
+
+  void _onTapSignIn() {
+    setState(() {
+      _isLoading = true;
+    });
+    _signIn
+        .signInUseEmail(_emailController.text.toString(),
+            _passwordController.text.toString())
+        .then((value) {
+      if (value) {
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.pushNamed(context, '/mainscreen');
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.pushNamed(context, '/signinscreen');
+      }
+    }).catchError((error) {
+      log.e("Sign In Screen: $error");
     });
   }
 
@@ -38,146 +64,149 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(bottom: 30),
-            child: Image.asset(
-              "assets/icons/homescreen/logo-homescreen.png",
-              width: 200,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 10),
-            width: MediaQuery.of(context).size.width,
-            child: TextFieldCustom(
-              controller: _emailController,
-              hintText: "Email",
-              keyboardType: TextInputType.emailAddress,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Please enter your email";
-                }
-
-                if (!Validator.emailIsValid(value)) {
-                  return "Invalid Email";
-                }
-
-                return "null";
-              },
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
-            width: MediaQuery.of(context).size.width,
-            child: TextFieldCustom.password(
-              controller: _passwordController,
-              hintText: "Password",
-              keyboardType: TextInputType.emailAddress,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Please enter your password";
-                }
-                if (!Validator.passwordIsValid(value)) {
-                  return "Invalid Password";
-                }
-
-                return "null";
-              },
-            ),
-          ),
-          _rememberMe(context),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
-            width: MediaQuery.of(context).size.width,
-            child: CustomButton(
-              onTap: () {
-                _signIn
-                    .signInUseEmail(_emailController.text.toString(),
-                        _passwordController.text.toString())
-                    .then((value) {
-                  if (value) {
-                    log.i(value);
-                    Navigator.pushNamed(context, '/mainscreen');
-                  } else {
-                    Navigator.pushNamed(context, '/signinscreen');
-                  }
-                }).catchError((error) {
-                  log.e("Sign In Screen: $error");
-                });
-              },
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              foregroundColor: Theme.of(context).colorScheme.onSecondary,
-              borderRadiusGeometry: BorderRadius.circular(20),
-              fontSize: 25,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 30,
-                vertical: 21,
-              ),
-              text: "Sign in",
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Divider(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      thickness: 2,
-                      indent: 10,
-                      endIndent: 20,
-                    ),
-                  ),
-                  Text(
-                    "OR",
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: Theme.of(context).colorScheme.onBackground,
-                          fontSize: 20,
-                        ),
-                  ),
-                  Expanded(
-                    child: Divider(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      thickness: 2,
-                      indent: 20,
-                      endIndent: 10,
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 11),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    IconButton.outlined(
-                      onPressed: () {},
-                      icon: const Icon(
-                        FontAwesome.google_brand,
-                      ),
-                    ),
-                    IconButton.outlined(
-                      onPressed: () {},
-                      icon: const Icon(
-                        FontAwesome.facebook_brand,
-                      ),
-                    ),
-                    IconButton.outlined(
-                      onPressed: () {},
-                      icon: const Icon(
-                        FontAwesome.apple_brand,
-                      ),
-                    ),
-                  ],
+      body: _isLoading
+          ? Container(
+              color:
+                  Theme.of(context).colorScheme.onBackground.withOpacity(0.3),
+              child: Center(
+                child: LoadingAnimationWidget.inkDrop(
+                  color: Theme.of(context).colorScheme.onBackground,
+                  size: 80,
                 ),
-              )
-            ],
-          )
-        ],
-      ),
+              ),
+            )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(bottom: 30),
+                  child: Image.asset(
+                    "assets/icons/homescreen/logo-homescreen.png",
+                    width: 200,
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  width: MediaQuery.of(context).size.width,
+                  child: TextFieldCustom(
+                    controller: _emailController,
+                    hintText: "Email",
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter your email";
+                      }
+
+                      if (!Validator.emailIsValid(value)) {
+                        return "Invalid Email";
+                      }
+
+                      return "null";
+                    },
+                  ),
+                ),
+                Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+                  width: MediaQuery.of(context).size.width,
+                  child: TextFieldCustom.password(
+                    controller: _passwordController,
+                    hintText: "Password",
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter your password";
+                      }
+                      if (!Validator.passwordIsValid(value)) {
+                        return "Invalid Password";
+                      }
+
+                      return "null";
+                    },
+                  ),
+                ),
+                _rememberMe(context),
+                Container(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
+                  width: MediaQuery.of(context).size.width,
+                  child: CustomButton(
+                    onTap: _onTapSignIn,
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                    borderRadiusGeometry: BorderRadius.circular(20),
+                    fontSize: 25,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                      vertical: 21,
+                    ),
+                    text: "Sign in",
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Divider(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            thickness: 2,
+                            indent: 10,
+                            endIndent: 20,
+                          ),
+                        ),
+                        Text(
+                          "OR",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                                fontSize: 20,
+                              ),
+                        ),
+                        Expanded(
+                          child: Divider(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            thickness: 2,
+                            indent: 20,
+                            endIndent: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 11),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          IconButton.outlined(
+                            onPressed: () {},
+                            icon: const Icon(
+                              FontAwesome.google_brand,
+                            ),
+                          ),
+                          IconButton.outlined(
+                            onPressed: () {},
+                            icon: const Icon(
+                              FontAwesome.facebook_brand,
+                            ),
+                          ),
+                          IconButton.outlined(
+                            onPressed: () {},
+                            icon: const Icon(
+                              FontAwesome.apple_brand,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
     );
   }
 
