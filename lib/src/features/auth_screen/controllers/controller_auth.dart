@@ -45,7 +45,7 @@ class ControllerAuth {
         _value = _value;
       }
     } catch (error) {
-      log.e("Controller Sign In: $error");
+      log.e("Controller Sign Up: $error");
     }
     return _value;
   }
