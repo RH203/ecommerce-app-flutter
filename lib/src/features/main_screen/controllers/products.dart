@@ -39,7 +39,7 @@ class Products extends ChangeNotifier {
   }
 
   void resetProducts() {
-    log.i(_allProducts);
+    // log.i(_allProducts);
     _products = List.from(_allProducts);
     notifyListeners();
   }
