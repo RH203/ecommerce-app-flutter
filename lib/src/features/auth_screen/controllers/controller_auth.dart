@@ -16,9 +16,8 @@ class ControllerAuth {
         email: email,
         password: password,
       );
-      log.i(res.user?.email);
       if (res.user?.email != null) {
-        // log.i(res.user?.userMetadata);
+        // log.e(res.user?.userMetadata?['first_name']);
         _value = !_value;
         sharedPref.setAccessToken(res.session?.accessToken != null);
       } else {
