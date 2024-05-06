@@ -9,7 +9,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  SignOut _signOut = SignOut();
+  final SignOut _signOut = SignOut();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: ElevatedButton(
         onPressed: () {
           _signOut.logOutUser();
-          Navigator.popAndPushNamed(context, '/');
+          Navigator.pushNamed(context, '/');
         },
         child: Text(
           "Logout",
