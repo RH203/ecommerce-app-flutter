@@ -198,7 +198,7 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                           itemCount: products.products?.length ?? 0,
                           itemBuilder: (context, index) {
-                            log.i(products.products?.length ?? 0);
+                            // log.i(products.products?.length ?? 0);
                             return GestureDetector(
                               onTap: () {},
                               child: Card(
