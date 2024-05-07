@@ -78,6 +78,7 @@ flutter:
   assets:
     - assets/image/on_boarding_images/
     - assets/image/carousel/
+    - assets/image/profile_user/
     - assets/icons/splash_screen/
     - assets/icons/homescreen/
     - assets/icons/brands/
