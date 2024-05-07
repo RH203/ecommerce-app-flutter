@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/src/app.dart';
 import 'package:ecommerce_app/src/features/main_screen/controllers/products.dart';
+import 'package:ecommerce_app/src/utils/provider/user_provider.dart';
 import 'package:ecommerce_app/src/utils/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -23,6 +24,9 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => Products(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
         )
       ],
       child: const App(),
