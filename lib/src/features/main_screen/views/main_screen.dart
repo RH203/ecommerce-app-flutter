@@ -8,6 +8,7 @@ import 'package:ecommerce_app/src/features/main_screen/controllers/products.dart
 import 'package:ecommerce_app/src/features/main_screen/models/models_category_button.dart';
 import 'package:ecommerce_app/src/features/profile_screen/views/profile_screen.dart';
 import 'package:ecommerce_app/src/features/wishlist_screen/views/wishlist_screen.dart';
+import 'package:ecommerce_app/src/utils/provider/user_provider.dart';
 import 'package:ecommerce_app/src/utils/services/api/products_api.dart';
 import 'package:ecommerce_app/src/utils/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -450,6 +451,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   AppBar _appBar(BuildContext context, ThemeProvider themeProvider) {
+    log.i(
+        " AppBAR: ${context.watch<UserProvider>().firstName} ${context.watch<UserProvider>().lastName}");
     return AppBar(
       leading: IconButton(
         onPressed: () => Navigator.popAndPushNamed(context, '/'),
@@ -467,7 +470,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
           ),
           Text(
-            "Raihan",
+            "${Provider.of<UserProvider>(context).firstName} ${Provider.of<UserProvider>(context).lastName}",
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: Theme.of(context).colorScheme.onBackground,
                 ),

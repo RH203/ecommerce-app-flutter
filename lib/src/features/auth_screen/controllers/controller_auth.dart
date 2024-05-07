@@ -1,5 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
+import 'package:ecommerce_app/src/utils/provider/user_provider.dart';
 import 'package:ecommerce_app/src/utils/shared/shared_prefe.dart';
 import 'package:logger/logger.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -9,6 +10,7 @@ class ControllerAuth {
   final supabase = Supabase.instance.client;
 
   Future<bool> signInUseEmail(String email, String password) async {
+    UserProvider _userProvider = UserProvider();
     bool _value = false;
     SharedPref sharedPref = SharedPref();
     try {
@@ -16,8 +18,11 @@ class ControllerAuth {
         email: email,
         password: password,
       );
+      _userProvider.setNameUser(res.user?.userMetadata?['first_name'],
+          res.user?.userMetadata?['last_name']);
       if (res.user?.email != null) {
-        // log.e(res.user?.userMetadata?['first_name']);
+        // log.e(
+        //     '${res.user?.userMetadata?['first_name']} ${res.user?.userMetadata?['last_name']}');
         _value = !_value;
         sharedPref.setAccessToken(res.session?.accessToken != null);
       } else {
