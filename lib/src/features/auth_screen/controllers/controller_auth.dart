@@ -1,15 +1,19 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: no_leading_underscores_for_local_identifiers, unused_local_variable
 
-import 'package:ecommerce_app/src/utils/provider/user_provider.dart';
+import 'package:ecommerce_app/src/features/main_screen/models/user/user_provider.dart';
 import 'package:ecommerce_app/src/utils/shared/shared_prefe.dart';
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ControllerAuth {
   var log = Logger();
   final supabase = Supabase.instance.client;
 
-  Future<bool> signInUseEmail(String email, String password) async {
+  Future<bool> signInUseEmail(
+      String email, String password, BuildContext context) async {
+    BuildContext _context = context;
     UserProvider _userProvider = UserProvider();
     bool _value = false;
     SharedPref sharedPref = SharedPref();
@@ -18,13 +22,16 @@ class ControllerAuth {
         email: email,
         password: password,
       );
-      _userProvider.setNameUser(res.user?.userMetadata?['first_name'],
-          res.user?.userMetadata?['last_name']);
-      if (res.user?.email != null) {
-        // log.e(
-        //     '${res.user?.userMetadata?['first_name']} ${res.user?.userMetadata?['last_name']}');
+
+      if (res.user?.userMetadata != null) {
         _value = !_value;
-        sharedPref.setAccessToken(res.session?.accessToken != null);
+        _context.read<UserProvider>().setNameUser(
+            res.user?.userMetadata?['first_name'],
+            res.user?.userMetadata?['last_name']);
+
+        sharedPref.setExpiredToken(
+          res.session?.expiresAt ?? DateTime.now().millisecondsSinceEpoch + 100,
+        );
       } else {
         _value = _value;
       }
