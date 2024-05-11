@@ -1,12 +1,9 @@
 import 'package:ecommerce_app/src/utils/services/api/products_api.dart';
 
 class ModelsProduct {
-  final String title;
-  final String brand;
+  final String title, brand, image;
   final double price;
-  final List<String> colors;
-  final List<String> sizes;
-  final String image;
+  final List<String> colors, sizes;
 
   ModelsProduct({
     required this.title,
