@@ -16,6 +16,7 @@ class CustomRouter {
     switch (name) {
       case "/":
         return PageRouteAnimator(
+          opaque: true,
           routeAnimation: RouteAnimation.leftToRightWithFade,
           settings: settings,
           curve: Curves.linear,
@@ -25,6 +26,7 @@ class CustomRouter {
         );
       case '/signinscreen':
         return PageRouteAnimator(
+          opaque: true,
           routeAnimation: RouteAnimation.bottomToTopWithFade,
           settings: settings,
           curve: Curves.easeInOut,
@@ -34,6 +36,7 @@ class CustomRouter {
         );
       case '/signupscreen':
         return PageRouteAnimator(
+          opaque: true,
           routeAnimation: RouteAnimation.bottomToTopWithFade,
           settings: settings,
           curve: Curves.linear,
@@ -43,6 +46,7 @@ class CustomRouter {
         );
       case '/mainscreen':
         return PageRouteAnimator(
+          opaque: true,
           routeAnimation: RouteAnimation.leftToRightWithFade,
           settings: settings,
           curve: Curves.linear,
@@ -52,6 +56,7 @@ class CustomRouter {
         );
       case '/cartscreen':
         return PageRouteAnimator(
+          opaque: true,
           routeAnimation: RouteAnimation.bottomLeftToTopRightWithFade,
           settings: settings,
           curve: Curves.linear,
@@ -61,6 +66,7 @@ class CustomRouter {
         );
       case '/wishlistscreen':
         return PageRouteAnimator(
+          opaque: true,
           routeAnimation: RouteAnimation.rightToLeftWithFade,
           settings: settings,
           curve: Curves.linear,
@@ -70,6 +76,7 @@ class CustomRouter {
         );
       case '/profilescreen':
         return PageRouteAnimator(
+          opaque: true,
           routeAnimation: RouteAnimation.topRightToBottomLeftWithFade,
           settings: settings,
           curve: Curves.linear,
