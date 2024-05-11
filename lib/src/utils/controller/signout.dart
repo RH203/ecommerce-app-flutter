@@ -7,10 +7,8 @@ class SignOut {
   final supabase = Supabase.instance.client;
 
   Future<void> logOutUser() async {
-    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     SharedPref sharedPref = SharedPref();
-    sharedPref.setAccessToken(false);
-    // log.i(sharedPreferences.getBool(SharedPref.KEY_ACCESS));
+    sharedPref.setExpiredToken(DateTime.now().millisecondsSinceEpoch + 1);
     await supabase.auth.signOut();
   }
 }
