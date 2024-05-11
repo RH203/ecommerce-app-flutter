@@ -6,9 +6,11 @@ import 'package:ecommerce_app/src/features/auth_screen/models/validator/validato
 import 'package:ecommerce_app/src/features/cart_screen/views/cart_screen.dart';
 import 'package:ecommerce_app/src/features/main_screen/controllers/products.dart';
 import 'package:ecommerce_app/src/features/main_screen/models/models_category_button.dart';
+import 'package:ecommerce_app/src/features/main_screen/models/user/user_provider.dart';
 import 'package:ecommerce_app/src/features/profile_screen/views/profile_screen.dart';
+import 'package:ecommerce_app/src/features/wishlist_screen/controllers/wishtlist_controllers.dart';
+import 'package:ecommerce_app/src/features/wishlist_screen/models/wishlist_item.dart';
 import 'package:ecommerce_app/src/features/wishlist_screen/views/wishlist_screen.dart';
-import 'package:ecommerce_app/src/utils/provider/user_provider.dart';
 import 'package:ecommerce_app/src/utils/services/api/products_api.dart';
 import 'package:ecommerce_app/src/utils/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -65,21 +67,25 @@ class _MainScreenState extends State<MainScreen> {
     _isLoading = true;
 
     products.getAllProduct().then((_) {
-      _modelsCategoryButton = productsApi.modelsCategoryButton;
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        _modelsCategoryButton = productsApi.modelsCategoryButton;
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }).catchError((error) {
-      _isLoading = false;
+      if (mounted) {
+        _isLoading = false;
 
-      log.e("Error during initialization: $error");
+        log.e("Error during initialization: $error");
+      }
     });
   }
 
   //* Main function
   @override
   Widget build(BuildContext context) {
-    pages = [
+    pages = <Widget>[
       _bodyMainScreen(context),
       const WishlistScreen(),
       const ProfileScreen(),
@@ -88,7 +94,6 @@ class _MainScreenState extends State<MainScreen> {
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, _) {
         return Scaffold(
-          resizeToAvoidBottomInset: false,
           backgroundColor: Theme.of(context).colorScheme.background,
           appBar: _appBar(context, themeProvider),
           body: Container(
@@ -120,7 +125,7 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   )
                 : Column(
-                    children: [
+                    children: <Widget>[
                       SizedBox(
                         height: 120,
                         width: MediaQuery.of(context).size.width,
@@ -141,7 +146,7 @@ class _MainScreenState extends State<MainScreen> {
                                           _category.elementAt(index));
                                 }),
                                 child: Column(
-                                  children: [
+                                  children: <Widget>[
                                     Container(
                                       padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
@@ -200,97 +205,144 @@ class _MainScreenState extends State<MainScreen> {
                           itemCount: products.products?.length ?? 0,
                           itemBuilder: (context, index) {
                             // log.i(products.products?.length ?? 0);
-                            return GestureDetector(
-                              onTap: () {},
-                              child: Card(
-                                color: Theme.of(context).colorScheme.tertiary,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Column(
-                                      children: [
-                                        FadeInImage.assetNetwork(
-                                          placeholder:
-                                              'assets/icons/lottie/loading-image-1.gif',
-                                          image: products.products != null &&
-                                                  products.products!.isNotEmpty
-                                              ? products.products![index].image
-                                              : '',
-                                          fit: BoxFit.cover,
-                                          width: 200,
+                            return Stack(
+                              children: <Widget>[
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Card(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Column(
+                                          children: [
+                                            FadeInImage.assetNetwork(
+                                              placeholder:
+                                                  'assets/icons/lottie/loading-image-1.gif',
+                                              image:
+                                                  products.products != null &&
+                                                          products.products!
+                                                              .isNotEmpty
+                                                      ? products
+                                                          .products![index]
+                                                          .image
+                                                      : '',
+                                              fit: BoxFit.cover,
+                                              width: 200,
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                left: 6,
+                                                top: 5,
+                                              ),
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Text(
+                                                products.products != null &&
+                                                        products.products!
+                                                            .isNotEmpty
+                                                    ? (products
+                                                                .products![
+                                                                    index]
+                                                                .title
+                                                                .countWords >
+                                                            5
+                                                        ? "${products.products![index].title.split(" ").take(5).join(" ")}..."
+                                                        : products
+                                                            .products![index]
+                                                            .title)
+                                                    : '',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleLarge!
+                                                    .copyWith(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onPrimary,
+                                                    ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                         Container(
                                           margin: const EdgeInsets.only(
-                                            left: 6,
-                                            top: 5,
-                                          ),
+                                              left: 6, bottom: 8, right: 6),
                                           width:
                                               MediaQuery.of(context).size.width,
-                                          child: Text(
-                                            products.products != null &&
-                                                    products
-                                                        .products!.isNotEmpty
-                                                ? (products.products![index]
-                                                            .title.countWords >
-                                                        5
-                                                    ? "${products.products![index].title.split(" ").take(5).join(" ")}..."
-                                                    : products
-                                                        .products![index].title)
-                                                : '',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleLarge!
-                                                .copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onTertiary,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Text(
+                                                '\$ ${products.products![index].price.toString()}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium!
+                                                    .copyWith(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onTertiary,
+                                                    ),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {},
+                                                style: ElevatedButton.styleFrom(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    vertical: 3,
+                                                    horizontal: 9,
+                                                  ),
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                          .colorScheme
+                                                          .primaryContainer,
                                                 ),
+                                                icon: const Icon(
+                                                  OctIcons.plus,
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                        ),
+                                        )
                                       ],
                                     ),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 6, bottom: 8, right: 6),
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            '\$ ${products.products![index].price.toString()}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium!
-                                                .copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onTertiary,
-                                                ),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {},
-                                            style: ElevatedButton.styleFrom(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                vertical: 3,
-                                                horizontal: 9,
-                                              ),
-                                              backgroundColor: Theme.of(context)
-                                                  .colorScheme
-                                                  .tertiaryContainer,
-                                            ),
-                                            icon: const Icon(
-                                              EvaIcons.plus,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                  ),
                                 ),
-                              ),
+                                Container(
+                                  margin: const EdgeInsets.all(8),
+                                  alignment: Alignment.topRight,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      log.d("ONTAP [MAINSCREEN]: PRESSED");
+                                      context
+                                          .read<WishlistController>()
+                                          .addToWishlist(
+                                            WishlistItem(
+                                              itemId: index.toString(),
+                                              title: products
+                                                  .products![index].title,
+                                              image: products
+                                                  .products![index].image,
+                                              price: products
+                                                  .products![index].price,
+                                            ),
+                                          );
+                                    },
+                                    style: IconButton.styleFrom(
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .secondaryContainer,
+                                    ),
+                                    icon: const Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             );
                           },
                         ),
@@ -451,8 +503,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   AppBar _appBar(BuildContext context, ThemeProvider themeProvider) {
-    log.i(
-        " AppBAR: ${context.watch<UserProvider>().firstName} ${context.watch<UserProvider>().lastName}");
+    // log.d(
+    //     "APPBAR: ${context.watch<UserProvider>().firstName} ${context.watch<UserProvider>().lastName}");
     return AppBar(
       leading: IconButton(
         onPressed: () => Navigator.popAndPushNamed(context, '/'),
@@ -470,7 +522,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
           ),
           Text(
-            "${Provider.of<UserProvider>(context).firstName} ${Provider.of<UserProvider>(context).lastName}",
+            "${context.read<UserProvider>().firstName.capitalize} ${context.read<UserProvider>().lastName.capitalize}",
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: Theme.of(context).colorScheme.onBackground,
                 ),
