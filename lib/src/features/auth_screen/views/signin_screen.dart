@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:ecommerce_app/src/common/widgets/button/custom_button.dart';
 import 'package:ecommerce_app/src/common/widgets/fields/text_field_custom.dart';
 import 'package:ecommerce_app/src/features/auth_screen/controllers/controller_auth.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:logger/logger.dart';
+
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -34,9 +36,10 @@ class _SignInScreenState extends State<SignInScreen> {
     });
     _signIn
         .signInUseEmail(_emailController.text.toString(),
-            _passwordController.text.toString())
+            _passwordController.text.toString(), context)
         .then((value) {
       if (value) {
+        log.d("onTapSignIn: True conditions");
         setState(() {
           _isLoading = false;
         });
@@ -45,7 +48,16 @@ class _SignInScreenState extends State<SignInScreen> {
         setState(() {
           _isLoading = false;
         });
-        Navigator.pushNamed(context, '/signinscreen');
+        final snackBar = SnackBar(
+          content: AwesomeSnackbarContent(
+            title: 'On Snap!',
+            message: 'Password atau email kamu mungkin salah',
+            contentType: ContentType.failure,
+          ),
+        );
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(snackBar);
       }
     }).catchError((error) {
       log.e("Sign In Screen: $error");
