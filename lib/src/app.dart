@@ -16,17 +16,14 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   var log = Logger();
-  bool? _accessToken;
+  int _expiresAt = DateTime.now().millisecondsSinceEpoch;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SharedPref sharedPref = SharedPref();
     sharedPref.getAccessToken().then((value) {
-      setState(() {
-        _accessToken = value;
-      });
+      _expiresAt = value;
     });
   }
 
@@ -44,10 +41,13 @@ class _AppState extends State<App> {
   }
 
   Widget _buildInitialScreen() {
-    if (_accessToken == true) {
-      return const MainScreen();
-    } else {
+    log.d("_expiresAt: $_expiresAt");
+    log.d(DateTime.now().millisecondsSinceEpoch);
+
+    if (_expiresAt < DateTime.now().millisecondsSinceEpoch) {
       return const HomeScreen();
+    } else {
+      return const MainScreen();
     }
   }
 }
