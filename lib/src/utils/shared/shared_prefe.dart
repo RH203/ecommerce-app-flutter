@@ -3,15 +3,16 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPref {
-  static String KEY_ACCESS = "ACCESS_TOKEN";
+  static String KEY_ACCESS = "EXPIRES_AT";
 
-  Future<void> setAccessToken(bool token) async {
+  Future<void> setExpiredToken(int token) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(KEY_ACCESS, token);
+    await prefs.setInt(KEY_ACCESS, token);
   }
 
-  Future<bool> getAccessToken() async {
+  Future<int> getAccessToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(KEY_ACCESS) ?? false;
+    return prefs.getInt(KEY_ACCESS) ??
+        DateTime.now().millisecondsSinceEpoch + 1;
   }
 }
